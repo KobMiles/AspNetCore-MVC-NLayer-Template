@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using BLL.Constants;
 using BLL.DTOs.Users;
 using BLL.Interfaces.Services;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace BLL.Services;
 
@@ -16,28 +16,26 @@ public class AuthService(
     {
         var user = mapper.Map<User>(registerDto);
 
-        var result = await userManager.CreateAsync(user, registerDto.Password);
-        if (!result.Succeeded)
-            return result;
+        var createResult = await userManager.CreateAsync(user, registerDto.Password);
+        if (!createResult.Succeeded)
+            return createResult;
 
-        if (!await userManager.IsInRoleAsync(user, "User"))
+
+        var roleResult = await userManager.AddToRoleAsync(user, ApplicationRoles.User);
+        if (!roleResult.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, "User");
+            await userManager.DeleteAsync(user);
+
+            return IdentityResult.Failed(roleResult.Errors.ToArray());
         }
 
-        return result;
+        return createResult;
     }
 
-    public async Task<IdentitySignInResult> LoginAsync(UserLoginDto loginDto)
+    public async Task<SignInResult> LoginAsync(UserLoginDto loginDto)
     {
-        var user = await userManager.FindByEmailAsync(loginDto.Email);
-        if (user == null)
-        {
-            return IdentitySignInResult.Failed;
-        }
-
         var result = await signInManager.PasswordSignInAsync(
-            user,
+            loginDto.Email,
             loginDto.Password,
             loginDto.RememberMe,
             lockoutOnFailure: false
@@ -47,7 +45,5 @@ public class AuthService(
     }
 
     public async Task LogoutAsync()
-    {
-        await signInManager.SignOutAsync();
-    }
+    => await signInManager.SignOutAsync();
 }

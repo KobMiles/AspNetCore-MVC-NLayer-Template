@@ -8,10 +8,13 @@ namespace BLL.Services;
 
 public class UserService(IUnitOfWork unitOfWork, IMapper mapper) : IUserService
 {
-    public async Task<UserDetailsDto> GetUserDetailsAsync(string userId)
+    public async Task<UserDetailsDto?> GetUserDetailsAsync(string userId)
     {
-        var spec = new UserByIdSpec(userId);
+        var spec = new UserByIdReadOnlySpec(userId);
+
         var user = await unitOfWork.Users.FirstOrDefaultAsync(spec);
+        if (user == null)
+            return null;
 
         var userDetailsDto = mapper.Map<UserDetailsDto>(user);
 

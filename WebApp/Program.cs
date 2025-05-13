@@ -19,7 +19,7 @@ if (!app.Environment.IsDevelopment())
 
 await app.ApplyMigrations();
 
-await app.SeedDataAsync(); // uncomment for seeding data in local
+//await app.SeedDataAsync(); // uncomment for seeding data in local
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

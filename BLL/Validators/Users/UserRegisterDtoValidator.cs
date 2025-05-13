@@ -11,6 +11,14 @@ public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email address.");
 
+        RuleFor(x => x.FirstName)
+            .NotEmpty().WithMessage("First name is required.")
+            .MaximumLength(100).WithMessage("The name must be less than 100 characters.");
+
+        RuleFor(x => x.LastName)
+            .NotEmpty().WithMessage("Last Name is required.")
+            .MaximumLength(100).WithMessage("The last name must be less than 100 characters.");
+
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");

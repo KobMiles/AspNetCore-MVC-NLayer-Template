@@ -32,6 +32,8 @@ public static class SeedingLocalExtension
             user = new User
             {
                 UserName = "user@user.com",
+                FirstName = "KobMiles",
+                LastName = "KobMiles",
                 Email = "user@user.com",
                 EmailConfirmed = true
             };
@@ -45,6 +47,8 @@ public static class SeedingLocalExtension
             admin = new User
             {
                 UserName = "admin@admin.com",
+                FirstName = "Nikita",
+                LastName = "Kobylynskyi",
                 Email = "admin@admin.com",
                 EmailConfirmed = true
             };

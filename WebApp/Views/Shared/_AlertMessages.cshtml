@@ -1,0 +1,36 @@
+﻿@{
+    var alertTypes = new Dictionary<string, string>
+    {
+        { "Success", "alert-success" },
+        { "Error", "alert-danger" },
+        { "Info", "alert-info" },
+        { "Warning", "alert-warning" }
+    };
+}
+
+@foreach (var key in alertTypes.Keys)
+{
+    if (TempData[key] is string message)
+    {
+        <div class="alert @alertTypes[key] alert-dismissible fade show" role="alert">
+            @message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

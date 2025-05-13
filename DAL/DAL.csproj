@@ -24,7 +24,6 @@
   <ItemGroup>
     <Folder Include="Entities\Configurations\Identity\" />
     <Folder Include="Entities\Specifications\Roles\" />
-    <Folder Include="Entities\Specifications\Users\" />
   </ItemGroup>
 
 </Project>

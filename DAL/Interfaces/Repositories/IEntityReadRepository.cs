@@ -2,7 +2,7 @@
 
 namespace DAL.Interfaces.Repositories;
 
-public interface IReadRepository<TEntity> : IReadRepositoryBase<TEntity>
+public interface IEntityReadRepository<TEntity> : IReadRepositoryBase<TEntity>
     where TEntity : class
 {
 }
